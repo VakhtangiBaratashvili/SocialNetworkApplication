@@ -38,4 +38,8 @@ public class Post {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+
+    public Post(String summary) {
+        this.summary = summary;
+    }
 }

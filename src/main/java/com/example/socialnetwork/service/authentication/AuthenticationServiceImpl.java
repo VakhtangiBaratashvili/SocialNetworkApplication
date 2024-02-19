@@ -5,6 +5,7 @@ import com.example.socialnetwork.dto.AuthorizationRequest;
 import com.example.socialnetwork.dto.RegistrationRequest;
 import com.example.socialnetwork.dto.user.UserDTOMapper;
 import com.example.socialnetwork.entity.User;
+import com.example.socialnetwork.exception.UserAlreadyExistsException;
 import com.example.socialnetwork.repository.UserRepository;
 import com.example.socialnetwork.service.JwtService;
 import lombok.AllArgsConstructor;
@@ -20,7 +21,7 @@ import static org.springframework.http.HttpStatus.*;
 
 @Service
 @AllArgsConstructor
-public class AuthenticationServiceImpl implements AuthenticationService{
+public class AuthenticationServiceImpl implements AuthenticationService {
 
     private final UserRepository repository;
     private final PasswordEncoder passwordEncoder;
@@ -31,7 +32,10 @@ public class AuthenticationServiceImpl implements AuthenticationService{
     @Override
     public ResponseEntity<AuthenticationResponse> register(RegistrationRequest request) {
 
-
+        if (repository.existsByEmail(request.getEmail()) ||
+                repository.existsByPassword(request.getPassword())) {
+            throw new UserAlreadyExistsException("User already exists");
+        }
 
         User user = new User(
                 request.getFirstName(),
@@ -43,9 +47,11 @@ public class AuthenticationServiceImpl implements AuthenticationService{
         );
         String token = jwtService.generateToken(user);
 
+        repository.save(user);
+
         AuthenticationResponse response = new AuthenticationResponse(
                 TRUE,
-                repository.save(user),
+                dtoMapper.apply(user),
                 token
         );
 
@@ -68,7 +74,7 @@ public class AuthenticationServiceImpl implements AuthenticationService{
 
         AuthenticationResponse response = new AuthenticationResponse(
                 TRUE,
-                user,
+                dtoMapper.apply(user),
                 token
         );
 
