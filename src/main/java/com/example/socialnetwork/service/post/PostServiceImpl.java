@@ -29,7 +29,6 @@ public class PostServiceImpl implements PostService {
     private final PostDTOMapper dtoMapper;
 
     @Override
-    @Transactional
     public ResponseEntity<ApiSuccessResponse> addPost(Post post) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         post.setUser(user);
