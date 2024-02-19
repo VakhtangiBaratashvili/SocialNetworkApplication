@@ -1,6 +1,7 @@
 package com.example.socialnetwork.handler;
 
 import com.example.socialnetwork.dto.ApiErrorResponse;
+import com.example.socialnetwork.exception.PostNotFoundException;
 import com.example.socialnetwork.exception.UserAlreadyExistsException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -22,5 +23,15 @@ public class ApiErrorResponseHandler {
                 FALSE, e.getMessage(), BAD_REQUEST, LocalDateTime.now());
 
         return new ResponseEntity<>(response, BAD_REQUEST);
+    }
+
+    @ExceptionHandler(PostNotFoundException.class)
+    public ResponseEntity<ApiErrorResponse> postNotFoundExceptionHandler(
+            PostNotFoundException e
+    ) {
+        ApiErrorResponse response = new ApiErrorResponse(
+                FALSE, e.getMessage(), NOT_FOUND, LocalDateTime.now());
+
+        return new ResponseEntity<>(response, NOT_FOUND);
     }
 }

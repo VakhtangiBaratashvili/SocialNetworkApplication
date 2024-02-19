@@ -5,6 +5,7 @@ import com.example.socialnetwork.dto.post.PostDTO;
 import com.example.socialnetwork.dto.post.PostDTOMapper;
 import com.example.socialnetwork.entity.Post;
 import com.example.socialnetwork.entity.User;
+import com.example.socialnetwork.exception.PostNotFoundException;
 import com.example.socialnetwork.repository.PostRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -48,6 +49,14 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public ResponseEntity<ApiSuccessResponse> getPostById(Long id) {
-        return null;
+        Post post = repository.
+                findById(id).
+                orElseThrow(() -> new PostNotFoundException("Post not found"));
+
+        ApiSuccessResponse response = new ApiSuccessResponse(
+                TRUE,
+                dtoMapper.apply(post)
+        );
+        return new ResponseEntity<>(response, OK);
     }
 }
