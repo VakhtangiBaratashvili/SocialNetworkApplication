@@ -7,6 +7,8 @@ import com.example.socialnetwork.entity.Post;
 import com.example.socialnetwork.entity.User;
 import com.example.socialnetwork.exception.PostNotFoundException;
 import com.example.socialnetwork.repository.PostRepository;
+import com.example.socialnetwork.repository.UserRepository;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -23,12 +25,16 @@ import static org.springframework.http.HttpStatus.OK;
 public class PostServiceImpl implements PostService {
 
     private final PostRepository repository;
+    private final UserRepository userRepository;
     private final PostDTOMapper dtoMapper;
 
     @Override
+    @Transactional
     public ResponseEntity<ApiSuccessResponse> addPost(Post post) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         post.setUser(user);
+        user.addPost(post);
+        userRepository.save(user);
         repository.save(post);
         ApiSuccessResponse response = new ApiSuccessResponse(
                 TRUE,

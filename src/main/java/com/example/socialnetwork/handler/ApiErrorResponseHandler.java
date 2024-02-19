@@ -34,4 +34,14 @@ public class ApiErrorResponseHandler {
 
         return new ResponseEntity<>(response, NOT_FOUND);
     }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ApiErrorResponse> exceptionHandler(
+            Throwable e
+    ) {
+        ApiErrorResponse response = new ApiErrorResponse(
+                FALSE, "Bad Request", BAD_REQUEST, LocalDateTime.now());
+
+        return new ResponseEntity<>(response, BAD_REQUEST);
+    }
 }

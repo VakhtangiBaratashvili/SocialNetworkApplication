@@ -45,10 +45,10 @@ public class User implements UserDetails {
     @Column(unique = true)
     private String password;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private List<Post> posts = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private List<Comment> comments = new ArrayList<>();
 
 
@@ -94,5 +94,11 @@ public class User implements UserDetails {
         this.role = role;
         this.email = email;
         this.password = password;
+    }
+
+    public void addPost(Post post) {
+        if (post != null && !this.posts.contains(post)) {
+            this.posts.add(post);
+        }
     }
 }
