@@ -3,6 +3,7 @@ package com.example.socialnetwork.service.authentication;
 import com.example.socialnetwork.dto.AuthenticationResponse;
 import com.example.socialnetwork.dto.AuthorizationRequest;
 import com.example.socialnetwork.dto.RegistrationRequest;
+import com.example.socialnetwork.dto.user.UserDTOMapper;
 import com.example.socialnetwork.entity.User;
 import com.example.socialnetwork.repository.UserRepository;
 import com.example.socialnetwork.service.JwtService;
@@ -25,9 +26,13 @@ public class AuthenticationServiceImpl implements AuthenticationService{
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
+    private final UserDTOMapper dtoMapper;
 
     @Override
     public ResponseEntity<AuthenticationResponse> register(RegistrationRequest request) {
+
+
+
         User user = new User(
                 request.getFirstName(),
                 request.getLastName(),
