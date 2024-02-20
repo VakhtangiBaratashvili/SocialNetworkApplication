@@ -1,1 +1,1 @@
-Social network api, where you car register, add, update and delete posts and comments
+Social network api, where you can register, add, update and delete posts and comments
