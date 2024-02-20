@@ -1,6 +1,6 @@
 package com.example.socialnetwork.dto.post;
 
-import com.example.socialnetwork.entity.Comment;
+import com.example.socialnetwork.dto.comment.CommentDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -14,6 +14,6 @@ public class PostDTO {
     private String summary;
     private Integer likes;
     private LocalDateTime time;
-    private List<Comment> comments;
+    private List<CommentDTO> comments;
     private String user;
 }

@@ -32,8 +32,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Override
     public ResponseEntity<AuthenticationResponse> register(RegistrationRequest request) {
 
+        String password = passwordEncoder.encode(request.getPassword());
+
         if (repository.existsByEmail(request.getEmail()) ||
-                repository.existsByPassword(request.getPassword())) {
+                repository.existsByPassword(password)) {
             throw new UserAlreadyExistsException("User already exists");
         }
 
@@ -43,7 +45,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 request.getGender(),
                 request.getRole(),
                 request.getEmail(),
-                passwordEncoder.encode(request.getPassword())
+                password
         );
         String token = jwtService.generateToken(user);
 

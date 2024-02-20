@@ -31,4 +31,12 @@ public class Comment {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+
+    @ManyToOne
+    @JoinColumn(name = "post_id")
+    private Post post;
+
+    public Comment(String comment) {
+        this.comment = comment;
+    }
 }

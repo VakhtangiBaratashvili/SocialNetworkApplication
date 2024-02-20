@@ -8,4 +8,5 @@ public interface PostService {
     ResponseEntity<ApiSuccessResponse> addPost(Post post);
     ResponseEntity<ApiSuccessResponse> getAllPosts();
     ResponseEntity<ApiSuccessResponse> getPostById(Long id);
+    ResponseEntity<ApiSuccessResponse> getAllPostsByUser(Long id);
 }

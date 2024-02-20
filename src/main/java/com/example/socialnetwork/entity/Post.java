@@ -32,7 +32,7 @@ public class Post {
 
     private LocalDateTime time = LocalDateTime.now();
 
-    @OneToMany
+    @OneToMany(mappedBy = "post", fetch = FetchType.EAGER)
     private List<Comment> comments = new ArrayList<>();
 
     @ManyToOne
@@ -41,5 +41,11 @@ public class Post {
 
     public Post(String summary) {
         this.summary = summary;
+    }
+
+    public void addComment(Comment comment) {
+        if (comment != null && !this.comments.contains(comment)) {
+            this.comments.add(comment);
+        }
     }
 }

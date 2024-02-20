@@ -28,4 +28,9 @@ public class PostController {
     public ResponseEntity<ApiSuccessResponse> getPostById(@PathVariable Long id) {
         return service.getPostById(id);
     }
+
+    @GetMapping("/by-user/{id}")
+    public ResponseEntity<ApiSuccessResponse> getAllPostsByUser(@PathVariable Long id) {
+        return service.getAllPostsByUser(id);
+    }
 }

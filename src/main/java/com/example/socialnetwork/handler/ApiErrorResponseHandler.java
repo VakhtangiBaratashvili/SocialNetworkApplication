@@ -40,7 +40,7 @@ public class ApiErrorResponseHandler {
             Throwable e
     ) {
         ApiErrorResponse response = new ApiErrorResponse(
-                FALSE, "Bad Request", BAD_REQUEST, LocalDateTime.now());
+                FALSE, e.getMessage(), BAD_REQUEST, LocalDateTime.now());
 
         return new ResponseEntity<>(response, BAD_REQUEST);
     }

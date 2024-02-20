@@ -101,4 +101,10 @@ public class User implements UserDetails {
             this.posts.add(post);
         }
     }
+
+    public void addComment(Comment comment) {
+        if (comment != null && !this.comments.contains(comment)) {
+            this.comments.add(comment);
+        }
+    }
 }

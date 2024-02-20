@@ -8,10 +8,10 @@ import com.example.socialnetwork.entity.User;
 import com.example.socialnetwork.exception.PostNotFoundException;
 import com.example.socialnetwork.repository.PostRepository;
 import com.example.socialnetwork.repository.UserRepository;
-import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -61,6 +61,19 @@ public class PostServiceImpl implements PostService {
         ApiSuccessResponse response = new ApiSuccessResponse(
                 TRUE,
                 dtoMapper.apply(post)
+        );
+        return new ResponseEntity<>(response, OK);
+    }
+
+    @Override
+    public ResponseEntity<ApiSuccessResponse> getAllPostsByUser(Long id) {
+        User user = userRepository.
+                findById(id).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        List<PostDTO> postsByUser = repository.findAllByUser(user).stream().map(dtoMapper).toList();
+
+        ApiSuccessResponse response = new ApiSuccessResponse(
+                TRUE,
+                postsByUser
         );
         return new ResponseEntity<>(response, OK);
     }
