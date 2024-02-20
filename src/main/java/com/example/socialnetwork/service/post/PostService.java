@@ -9,4 +9,6 @@ public interface PostService {
     ResponseEntity<ApiSuccessResponse> getAllPosts();
     ResponseEntity<ApiSuccessResponse> getPostById(Long id);
     ResponseEntity<ApiSuccessResponse> getAllPostsByUser(Long id);
+    ResponseEntity<ApiSuccessResponse> updatePostById(Long id, Post post);
+    ResponseEntity<ApiSuccessResponse> deletePostById(Long id);
 }

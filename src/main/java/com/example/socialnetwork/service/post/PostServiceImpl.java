@@ -17,8 +17,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 import static java.lang.Boolean.*;
-import static org.springframework.http.HttpStatus.CREATED;
-import static org.springframework.http.HttpStatus.OK;
+import static org.springframework.http.HttpStatus.*;
 
 @Service
 @AllArgsConstructor
@@ -76,5 +75,48 @@ public class PostServiceImpl implements PostService {
                 postsByUser
         );
         return new ResponseEntity<>(response, OK);
+    }
+
+    @Override
+    public ResponseEntity<ApiSuccessResponse> updatePostById(Long id, Post post) {
+
+        Post getPost = repository.
+                findById(id).
+                orElseThrow(() -> new PostNotFoundException("Post not found"));
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (!user.getPosts().contains(getPost)) {
+            throw new RuntimeException("You don't own this post");
+        }
+        if (post != null && post.getSummary() != null && !post.getSummary().isBlank()) {
+            getPost.setSummary(post.getSummary());
+            getPost.setTime(post.getTime());
+            repository.save(getPost);
+        }
+
+        ApiSuccessResponse response = new ApiSuccessResponse(
+                TRUE,
+                dtoMapper.apply(getPost)
+        );
+        return new ResponseEntity<>(response, ACCEPTED);
+    }
+
+    @Override
+    public ResponseEntity<ApiSuccessResponse> deletePostById(Long id) {
+        Post post = repository.
+                findById(id).
+                orElseThrow(() -> new PostNotFoundException("Post not found"));
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (!user.getPosts().contains(post)) {
+            throw new RuntimeException("You don't own this post");
+        }
+        repository.deleteById(id);
+        user.removePost(post);
+        userRepository.save(user);
+
+        ApiSuccessResponse response = new ApiSuccessResponse(
+                TRUE,
+                dtoMapper.apply(post)
+        );
+        return new ResponseEntity<>(response, ACCEPTED);
     }
 }

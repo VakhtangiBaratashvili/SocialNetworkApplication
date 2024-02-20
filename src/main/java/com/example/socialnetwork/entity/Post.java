@@ -28,8 +28,6 @@ public class Post {
 
     private String summary;
 
-    private Integer likes = 0;
-
     private LocalDateTime time = LocalDateTime.now();
 
     @OneToMany(mappedBy = "post", fetch = FetchType.EAGER)

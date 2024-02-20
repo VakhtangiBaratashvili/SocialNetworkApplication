@@ -33,4 +33,14 @@ public class PostController {
     public ResponseEntity<ApiSuccessResponse> getAllPostsByUser(@PathVariable Long id) {
         return service.getAllPostsByUser(id);
     }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<ApiSuccessResponse> updatePostById(@PathVariable Long id, @RequestBody Post post) {
+        return service.updatePostById(id, post);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<ApiSuccessResponse> deletePostById(@PathVariable Long id) {
+        return service.deletePostById(id);
+    }
 }

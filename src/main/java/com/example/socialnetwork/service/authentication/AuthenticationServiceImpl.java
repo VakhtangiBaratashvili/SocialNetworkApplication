@@ -34,8 +34,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
         String password = passwordEncoder.encode(request.getPassword());
 
-        if (repository.existsByEmail(request.getEmail()) ||
-                repository.existsByPassword(password)) {
+        if (repository.existsByEmail(request.getEmail())) {
             throw new UserAlreadyExistsException("User already exists");
         }
 

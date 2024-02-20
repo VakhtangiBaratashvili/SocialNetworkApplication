@@ -23,7 +23,6 @@ public class PostDTOMapper implements Function<Post, PostDTO> {
         return new PostDTO(
                 post.getId(),
                 post.getSummary(),
-                post.getLikes(),
                 post.getTime(),
                 comments,
                 post.getUser().getFirstName() + " " + post.getUser().getLastName()

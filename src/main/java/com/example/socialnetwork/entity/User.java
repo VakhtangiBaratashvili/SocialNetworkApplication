@@ -102,9 +102,21 @@ public class User implements UserDetails {
         }
     }
 
+    public void removePost(Post post) {
+        if (post != null) {
+            this.posts.remove(post);
+        }
+    }
+
     public void addComment(Comment comment) {
         if (comment != null && !this.comments.contains(comment)) {
             this.comments.add(comment);
+        }
+    }
+
+    public void removeComment(Comment comment) {
+        if (comment != null) {
+            this.comments.remove(comment);
         }
     }
 }

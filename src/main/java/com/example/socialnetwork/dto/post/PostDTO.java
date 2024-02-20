@@ -12,7 +12,6 @@ import java.util.List;
 public class PostDTO {
     private Long id;
     private String summary;
-    private Integer likes;
     private LocalDateTime time;
     private List<CommentDTO> comments;
     private String user;
